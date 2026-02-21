@@ -1,139 +1,274 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Login</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahir College</title>
+  <style>
+    :root {
+      --primary: #1e3a8a;
+      --secondary: #0f766e;
+      --light: #f8fafc;
+      --text: #1f2937;
+    }
 
-        /* Animation for the login card */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    * { box-sizing: border-box; }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 2rem;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
-            width: 350px;
-            text-align: center;
-            animation: slideUp 0.8s ease-out;
-        }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      color: var(--text);
+      background: #e2e8f0;
+    }
 
-        .login-card img {
-            width: 80px;
-            border-radius: 50%;
-            margin-bottom: 1rem;
-        }
+    .name-overlay {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1e3a8a, #0f766e);
+      display: grid;
+      place-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
+    .name-card {
+      background: white;
+      padding: 26px;
+      border-radius: 14px;
+      width: min(420px, 100%);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
 
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #764ba2;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background 0.3s;
-        }
+    .name-card h1 { margin-top: 0; color: var(--primary); }
 
-        button:hover { background-color: #5a368a; }
+    .name-card input {
+      width: 100%;
+      margin: 10px 0 16px;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #94a3b8;
+      font-size: 16px;
+    }
 
-        #welcomeMessage {
-            display: none;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            animation: slideUp 0.5s ease;
-        }
-    </style>
+    .name-card button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 10px;
+      background: var(--secondary);
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    header {
+      background: linear-gradient(130deg, var(--primary), #2563eb);
+      color: white;
+      padding: 70px 20px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .user-chip {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 30px;
+      padding: 8px 14px 8px 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: bold;
+    }
+
+    .profile-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: #facc15;
+      color: #111827;
+      display: grid;
+      place-items: center;
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: -50px auto 30px;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      overflow: hidden;
+    }
+
+    section { padding: 30px 24px; }
+    h2 { color: var(--primary); margin-top: 0; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .gallery img,
+    .message-card img {
+      width: 100%;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .messages {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+
+    .message-card {
+      background: #f1f5f9;
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .creator-link {
+      text-align: center;
+      padding: 0 24px 30px;
+    }
+
+    .creator-link button {
+      border: 1px solid var(--primary);
+      color: var(--primary);
+      background: transparent;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    #creatorPage {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.92);
+      z-index: 1001;
+      padding: 20px;
+    }
+
+    .creator-card {
+      max-width: 720px;
+      margin: 50px auto;
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .creator-card button {
+      margin-top: 18px;
+      background: var(--primary);
+      border: none;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
-
-    <div class="login-card" id="loginForm">
-        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Icon">
-        <h2>Student Portal</h2>
-        <input type="text" id="name" placeholder="Full Name" required>
-        <input type="text" id="roll" placeholder="Roll Number" required>
-        <select id="course">
-            <option value="Select Course">Select Course</option>
-            <option value="BCA">BCA</option>
-            <option value="BBA">BBA</option>
-<option value="BCOM">BCOM</option>
-<option value="MCOM">MCOM</option>
-<option value="BSC Physical Science">BSC Physical Science</option>
-<option value="BSC Life Science">BSC Life Science</option>
-<option value="BA">BA</option>
-
-
-
-        </select>
-        <button onclick="handleSubmit()">Login</button>
+  <div class="name-overlay" id="nameOverlay">
+    <div class="name-card">
+      <h1>Welcome to Ahir College</h1>
+      <p>Please enter your name to continue.</p>
+      <label for="studentName">Your Name</label>
+      <input id="studentName" type="text" placeholder="Enter your full name">
+      <button id="enterBtn">Enter Website</button>
     </div>
+  </div>
 
-    <div id="welcomeMessage"></div>
+  <header>
+    <div class="user-chip" id="userChip" style="display:none;">
+      <div class="profile-icon" id="profileIcon">A</div>
+      <span id="displayName">Guest</span>
+    </div>
+    <h1>Ahir College</h1>
+    <p>Building Knowledge, Character, and Future Leaders</p>
+  </header>
 
-   <script>
-    async function handleSubmit() {
-        // 1. Get the values from the input fields
-        const name = document.getElementById('name').value;
-        const roll = document.getElementById('roll').value;
-        const course = document.getElementById('course').value;
-        
-        // PASTE YOUR GOOGLE SCRIPT URL HERE
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzlvJjstZ1mYN6M_6MBN_9tR97mTsAtQQjxnQnIZSQavFFwkuIhnX0LrCkzRtKeZyPeXQ/exec';
+  <main>
+    <section>
+      <h2>About the College</h2>
+      <p>Ahir College is dedicated to academic excellence, inclusive learning, and holistic student growth. Our campus offers modern classrooms, laboratories, library resources, and an environment that supports innovation and leadership.</p>
+    </section>
 
-        // Validation
-        if(!name || !roll || !course) {
-            alert("Please fill all details before logging in.");
-            return;
-        }
+    <section>
+      <h2>Messages from Leadership</h2>
+      <div class="messages">
+        <article class="message-card">
+          <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80" alt="Principal">
+          <h3>Principal's Message</h3>
+          <p>"Our mission is to empower every student with quality education, ethics, and confidence to succeed in a changing world."</p>
+        </article>
+        <article class="message-card">
+          <img src="https://images.unsplash.com/photo-1556157382-97eda2d62296?auto=format&fit=crop&w=900&q=80" alt="President">
+          <h3>President's Message</h3>
+          <p>"At Ahir College, we nurture talent and encourage innovation so students can contribute meaningfully to society and the nation."</p>
+        </article>
+      </div>
+    </section>
 
-        // 2. Hide login form and show the Welcome Message
-        document.getElementById('loginForm').style.display = 'none';
-        const welcome = document.getElementById('welcomeMessage');
-        welcome.style.display = 'block';
-        welcome.innerHTML = `Welcome, <strong>${name}</strong>!<br><span style="font-size: 16px;">Redirecting to Ahir College...</span>`;
+    <section>
+      <h2>College Photos</h2>
+      <div class="gallery">
+        <img src="https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=900&q=80" alt="College Building">
+        <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=900&q=80" alt="Campus View">
+        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=900&q=80" alt="Students at Campus">
+        <img src="https://images.unsplash.com/photo-1519452635265-7b1fbfd1e4e0?auto=format&fit=crop&w=900&q=80" alt="Library and Learning Space">
+      </div>
+    </section>
 
-        // 3. Send the data to your Google Sheet
-        try {
-            await fetch(scriptURL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, roll, course })
-            });
-            console.log("Data successfully sent to Google Sheet.");
-        } catch (error) {
-            console.error("Sheet Error:", error.message);
-        }
+    <div class="creator-link">
+      <button onclick="openCreator()">View Creator Section</button>
+    </div>
+  </main>
 
-        // 4. Redirect to Ahir College Website after a 2-second delay
-        setTimeout(() => {
-            window.location.href = "https://ahircollege.ac.in/"; 
-        }, 2500);
+  <section id="creatorPage">
+    <div class="creator-card">
+      <h2>Creator Section</h2>
+      <p>This section is intentionally kept separate from the front page.</p>
+      <p><strong>Created by:</strong> Web Team, Ahir College</p>
+      <p><strong>Purpose:</strong> Showcase college information, leadership messages, and student-friendly access.</p>
+      <button onclick="closeCreator()">Back to Website</button>
+    </div>
+  </section>
+
+  <script>
+    const enterBtn = document.getElementById('enterBtn');
+    const studentNameInput = document.getElementById('studentName');
+
+    enterBtn.addEventListener('click', () => {
+      const fullName = studentNameInput.value.trim();
+      if (!fullName) {
+        alert('Please enter your name first.');
+        return;
+      }
+
+      const firstLetter = fullName.charAt(0).toUpperCase();
+      document.getElementById('profileIcon').textContent = firstLetter;
+      document.getElementById('displayName').textContent = fullName;
+      document.getElementById('userChip').style.display = 'flex';
+      document.getElementById('nameOverlay').style.display = 'none';
+    });
+
+    function openCreator() {
+      document.getElementById('creatorPage').style.display = 'block';
     }
-</script>
+
+    function closeCreator() {
+      document.getElementById('creatorPage').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
