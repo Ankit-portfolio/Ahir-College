@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Login</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+        }
+
+        /* Animation for the login card */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            width: 350px;
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .login-card img {
+            width: 80px;
+            border-radius: 50%;
+            margin-bottom: 1rem;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #764ba2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+
+        button:hover { background-color: #5a368a; }
+
+        #welcomeMessage {
+            display: none;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            animation: slideUp 0.5s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card" id="loginForm">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="User Icon">
+        <h2>Student Portal</h2>
+        <input type="text" id="name" placeholder="Full Name" required>
+        <input type="text" id="roll" placeholder="Roll Number" required>
+        <select id="course">
+            <option value="Select Course">Select Course</option>
+            <option value="BCA">BCA</option>
+            <option value="BBA">BBA</option>
+<option value="BCOM">BCOM</option>
+<option value="MCOM">MCOM</option>
+<option value="BSC Physical Science">BSC Physical Science</option>
+<option value="BSC Life Science">BSC Life Science</option>
+<option value="BA">BA</option>
+
+
+
+        </select>
+        <button onclick="handleSubmit()">Login</button>
+    </div>
+
+    <div id="welcomeMessage"></div>
+
+   <script>
+    async function handleSubmit() {
+        // 1. Get the values from the input fields
+        const name = document.getElementById('name').value;
+        const roll = document.getElementById('roll').value;
+        const course = document.getElementById('course').value;
+        
+        // PASTE YOUR GOOGLE SCRIPT URL HERE
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzlvJjstZ1mYN6M_6MBN_9tR97mTsAtQQjxnQnIZSQavFFwkuIhnX0LrCkzRtKeZyPeXQ/exec';
+
+        // Validation
+        if(!name || !roll || !course) {
+            alert("Please fill all details before logging in.");
+            return;
+        }
+
+        // 2. Hide login form and show the Welcome Message
+        document.getElementById('loginForm').style.display = 'none';
+        const welcome = document.getElementById('welcomeMessage');
+        welcome.style.display = 'block';
+        welcome.innerHTML = `Welcome, <strong>${name}</strong>!<br><span style="font-size: 16px;">Redirecting to Ahir College...</span>`;
+
+        // 3. Send the data to your Google Sheet
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, roll, course })
+            });
+            console.log("Data successfully sent to Google Sheet.");
+        } catch (error) {
+            console.error("Sheet Error:", error.message);
+        }
+
+        // 4. Redirect to Ahir College Website after a 2-second delay
+        setTimeout(() => {
+            window.location.href = "https://ahircollege.ac.in/"; 
+        }, 2500);
+    }
+</script>
+</body>
+</html>
